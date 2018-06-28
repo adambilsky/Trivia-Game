@@ -9,19 +9,16 @@
     // A function will defined to perform the following actions:
     // 1) In a randomly determined, non-repeating order, pull each question set from the Bank.
     // *** DONE 2) Push the 'question text' into the question section of the game <div>.
-    // 3) Shuffle (apply a randomized sequence to) the questions.
+    // *** DONE 3) Shuffle (apply a randomized sequence to) the questions.
     // *** DONE 4) Assign the randomized questions to buttons in the game <div>. 
-    // 5) The purpose of randomization in steps 1 and 3 is to avoid a predictable answer sequence,
+    // *** DONE 5) The purpose of randomization in steps 1 and 3 is to avoid a predictable answer sequence,
     // and, in higher-stakes testing settings, to prevent cheating or answer-sharing.
     // The sequencing should also allow for simplified code, since a separate page is not required
     // for each question.
-//
-// - Players have 30 seconds to answer each question. This requires a countdown timer
+
+// *** DONE Players have 30 seconds to answer each question. This requires a countdown timer
 // that is also displayed for the User. If the User does not submit an answer before time expires,
 // The answer will be logged as "incorrect."
-
-// - 
-
 
 $(document).ready(function() {
 // Scoring
@@ -172,56 +169,63 @@ $(document).ready(function() {
         // resets the question timer and starts the clock
         number=16;
         gameTimer();
+        
+        // var randomizeQuest = function () {
+        //     for (var q = 0; q < questionBank.length; q++) {
+        //         var random = Math.floor(Math.random() * questionBank.length +1);
+        //         if(questionBank.indexOf(random)===-1) {
+        //             randomQuestionArray.push(questionBank[random].questionText);
+        //         }
+        //         else {
+        //             randomizeQuest();
+        //         }
+        //     }
+        // }
+        // randomizeQuest();
 
         $("#answerButtons").empty();
         var htmlQuestion = "<h3>Question #" +questionBank[questionNumber].number + ": " + questionBank[questionNumber].questionText + "</h3>";
         document.querySelector("#questionText").innerHTML = htmlQuestion;
                
 
-        // ANSWER SHUFFLER 
+        // *** ANSWER SHUFFLER 
         // A sequence that will randomize the answer choices 
         // so not all correct answers are in the same place in each set of buttons
         // Create an empty array
         var randomArray = [];
         var notRandomArray = [1,2,3,4];
+        var randomAnswerArray = [];
+        var randomQuestionArray = [];
+
         // run a loop to generate a random sequence of numbers from 1-4
-        var randomize = function () {
+        var randomizeAns = function () {
             for (var r = 0; randomArray.length<4; r++) {
-                var random = Math.floor((Math.random() * notRandomArray.length) + 1);
+                var random = Math.floor(Math.random() * notRandomArray.length);
                 if (randomArray.indexOf(random)===-1) {
                     randomArray.push(random);
+                    randomAnswerArray.push(questionBank[questionNumber].answers[random])
                 }
                 else {
-                    randomize();
+                    randomizeAns();
                 }
             }
         }
-        randomize();
+        randomizeAns()
 
-        // the following variable, "selector", is part of the randomization attempt, 
-        // but was removed from steps 4 & 5 below, because the result only pulled 
-        // 3 of the 4 random buttons.
-
-        var selector = 0;
         // *** BUTTON CREATION AND CONTENT POPULATION: ***
         // 1. Create a for-loop to iterate through the answer choices array.
         for (var i = 0; i < questionBank[questionNumber].answers.length; i++) {
 
             // 2. Create a variable named "answerBtn" equal to $("<button>");
             var answerBtn = $("<button>");
-            
             // 3. Then give each "answerBtn" the following classes: "answer-button" "answer-text" "answer-button-color".
             answerBtn.addClass("answer-button answer-text answer-button-color");
-           
             // 4. Then give each "answerBtn" a data-attribute called "data-choice".
-            answerBtn.attr("data-choice", questionBank[questionNumber].answers[i]);
-            
+            answerBtn.attr("data-choice", randomAnswerArray[i]);
             // 5. Then give each "answerBtn" a text equal to "questionBank[questionNumber].answers[i]".
-            answerBtn.text(questionBank[questionNumber].answers[i]);
-            
+            answerBtn.text(randomAnswerArray[i]);
             // 6. Finally, append each "answerBtn" to the "#buttons" div (provided).
             $("#answerButtons").append(answerBtn);
-            selector++
         }
 
         // *** BUTTON RESPONSE AND ANSWER EVALUATION: ***
@@ -231,10 +235,9 @@ $(document).ready(function() {
         })    
     }
     
-    // comparing user answer to correct answer
+    // *** ANSWER EVALUATION AND RESPONSE
     var evaluate = function(userChoice) {
         if (userChoice===questionBank[questionNumber].correctAnswer.text) {
-            console.log("you're right!");
             $("#questionText").html("<h4>Yes, '" + questionBank[questionNumber].correctAnswer.text + "' is correct! Great Job! </h4>")
             correct++;    
         }
