@@ -1,7 +1,7 @@
 // This is the Trivia Game Script
 
 // GENERAL NOTES AND DESIGN ALGORITHM
-// - The current version has 5 questions each with 4 answer choices (1 correct and 3 incorrect).
+// - The current version has 5 questions, each with 4 answer choices (1 correct and 3 incorrect).
     // Each question, correct answer, and incorrect answers comprise separate arrays within a larger object.
     // The five question "sets" are part of a larger object, the Question Bank.
 
@@ -24,11 +24,20 @@ $(document).ready(function() {
 // Scoring
     // We will need variables to store the rolling number of 
     // correct, incorrect, and unanswered (timed-out) questions
+    var initialize = function() {
+        correct = 0;
+        incorrect = 0;
+        timedOut = 0;
+        questionNumber = 0;
+        questionsAnswered = 0;
+           
+    }
+
     var correct = 0;
     var incorrect = 0;
     var timedOut = 0;
     var questionNumber = 0;
-    var questionsAnswered = 0;
+    var questionsAnswered = 0;    
 
 
 // Question text section
@@ -43,7 +52,8 @@ $(document).ready(function() {
             answers: ["Sean Connery","Michael Caine", "Terrence Stamp", "Jonathan Pryce"],
             correctAnswer: {
                 value: true,
-                text: "Sean Connery"
+                text: "Sean Connery",
+                image: "<img src='assets/images/indiana-connery.gif'>"
             },
             incorrectAnswers: {
                 value: false,
@@ -56,7 +66,9 @@ $(document).ready(function() {
             answers: ["1955","1985", "1941", "1969"],
             correctAnswer: {
                 value: true,
-                text: "1955"
+                text: "1955",
+                image: "<img src='assets/images/doc-brown.gif'>"
+
             },
             incorrectAnswers: {
                 value: false,
@@ -69,7 +81,9 @@ $(document).ready(function() {
             answers: ["criminal", "neo-maxie-zoom dweebie", "burner", "wastoid"],
             correctAnswer: {
                 value: true,
-                text: "criminal"
+                text: "criminal",
+                image: "<img src='assets/images/bc-criminal.gif'>"
+
             },                
             incorrectAnswers: {
                 value: false,
@@ -83,6 +97,8 @@ $(document).ready(function() {
             correctAnswer: {
                 value: true,
                 text: "Vinz Klortho, Keymaster of Gozer",
+                image: "<img src='assets/images/ghostbusters.gif'>"
+
             },
             incorrectAnswers: {
                 value: false,
@@ -95,7 +111,9 @@ $(document).ready(function() {
             answers: ["Rick Springfield","Glenn Frey", "Joe Walsh", "Robert Plant"],
             correctAnswer: { 
                 value: true,
-                text: "Rick Springfield"
+                text: "Rick Springfield",
+                image: "<img src='assets/images/springfield.gif'>"
+
             },
             incorrectAnswers: {
                 value: false,
@@ -121,7 +139,6 @@ $(document).ready(function() {
         clearInterval(intervalId);
         intervalId = setInterval(decrement, 1000);
     }
-    var waitTime;
 
     //  The decrement function: 
     function decrement() {
@@ -161,6 +178,9 @@ $(document).ready(function() {
         }
         else {
             alert("Thanks for playing! Final score: Correct: " + correct + " Incorrect: " + incorrect);
+            $("#answerButtons").empty();
+            $("#questionText").html("Final score: Correct: " + correct + " Incorrect: " + incorrect);
+
         }
     }
 
@@ -184,7 +204,7 @@ $(document).ready(function() {
         // randomizeQuest();
 
         $("#answerButtons").empty();
-        var htmlQuestion = "<h3>Question #" +questionBank[questionNumber].number + ": " + questionBank[questionNumber].questionText + "</h3>";
+        var htmlQuestion = "<h5>Question #" +questionBank[questionNumber].number + ": " + questionBank[questionNumber].questionText + "</h5>";
         document.querySelector("#questionText").innerHTML = htmlQuestion;
                
 
@@ -239,6 +259,7 @@ $(document).ready(function() {
     var evaluate = function(userChoice) {
         if (userChoice===questionBank[questionNumber].correctAnswer.text) {
             $("#questionText").html("<h4>Yes, '" + questionBank[questionNumber].correctAnswer.text + "' is correct! Great Job! </h4>")
+            $("#answerButtons").html(questionBank[questionNumber].correctAnswer.image);
             correct++;    
         }
         else {
@@ -258,12 +279,6 @@ $(document).ready(function() {
     }
     getQuestion();
 
-
-
-
-    // Evaluation
-
     // General notes:
-    // We may need to use the "body onload = ' ' " to call functions
     // Note the demo video made a point that the pages did not RELOAD when restarting the quiz.
 })

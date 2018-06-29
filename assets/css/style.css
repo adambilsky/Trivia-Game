@@ -1,11 +1,24 @@
-.jumbotron {
-    max-height: 5%;
-    text-align: center;
+body {
+    background-color: rgba(240, 232, 144, 0.598);
 }
 
-.text-center {
-    margin-top: 10px;
+.header {
+    text-align: center;
+    min-height: 120px;
+    padding: 5px;
+    background-color: palevioletred;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    /* margin-top: 10px; */
 }
+h3{
+    margin-top: 5px;
+    font-size: 48px;
+}
+h5{
+    margin-top: 5px;
+    font-size: 24px;
+}
+
 .container {
     /* border: 2px solid red; */
     margin: auto;
@@ -46,13 +59,15 @@
     background-color: black;
     color: chartreuse;
 }
-/* #questionText {
-    font-size:16px;
-} */
+#questionText {
+    font: size 18;
+    text-align: center;
+}
 #scoreBox {
     text-align: center;
     margin-right: 33%;
     margin-left: 33%;
+    margin-top: 10px;
 }
 
 #answerButtons {
