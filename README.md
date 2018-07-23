@@ -10,4 +10,10 @@ This app presents the user with a 5-question timed quiz about 80's movies. Corre
 - A score-keeping display;
 - A timer that will default submit an answer as incorrect when it reaches '0';
 
+A future version of this app will include:
+- A randomizer to shuffle the question order;
+- A more visually appealing UI;
+- A ranking system based on correct answers;
+- An expanded question base;
+
 https://adambilsky.github.io/Trivia-Game/
